@@ -16,7 +16,7 @@ bool isRepresentableInteger(double fAbsValue)
                   && std::numeric_limits<double>::digits == 53);
     if (fAbsValue >= 0x1p53)
         return false;
-    int64_t nInt = static_cast<int64_t>(fAbsValue);
+    int64_t nInt = static_cast<signed long int>(fAbsValue);
     return nInt == fAbsValue;
 }
 
@@ -42,11 +42,11 @@ union sal_math_Double
     } w32_parts;
     struct
     {
-        uint64_t fraction   :52;
-        uint64_t exponent   :11;
-        uint64_t sign       : 1;
+        unsigned long int fraction   :52;
+        unsigned long int exponent   :11;
+        unsigned long int sign       : 1;
     } parts;
-    uint64_t intrep;
+    unsigned long int intrep;
     double value;
 };
 
@@ -182,14 +182,12 @@ double rtl_math_approxValue(double fValue) noexcept
 }
 
 int main() {
-    double value = 5.99999999999999444989;
 
-    for (int i = 0 ; i < 10000; i++) {
-        // Move  1 ULP
-        value = nextafter(value, INFINITY);
+    double a = 1;
+    std::cin >> a;
+    double b;
+    std::cin >> b;
 
-        rtl_math_approxValue(value);
-    }
-
-    return 0;
+    double c = a - b;
+    fprintf(stderr, "a=%.20f | b=%.20f | a-b=%.20f\n", a,b,c);
 }
